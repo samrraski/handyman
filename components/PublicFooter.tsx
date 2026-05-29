@@ -2,10 +2,38 @@ import Link from "next/link";
 import { Hammer, Phone, Mail, MapPin } from "lucide-react";
 import { BUSINESS } from "@/lib/config";
 
+const SERVICE_AREAS = [
+  "Calgary", "Airdrie", "Cochrane", "Chestermere", "Okotoks",
+  "High River", "Strathmore", "Canmore", "Banff", "Crossfield",
+  "Carstairs", "Didsbury", "Olds", "Red Deer", "Black Diamond",
+  "Turner Valley", "Bragg Creek", "Langdon", "Nanton", "Claresholm",
+  "Fort Macleod", "Vulcan", "Drumheller", "Beiseker", "Irricana",
+];
+
 export default function PublicFooter() {
   return (
     <footer className="bg-brand-black border-t border-brand-gray-800">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12">
+
+        {/* Service Areas */}
+        <div className="mb-10 pb-10 border-b border-brand-gray-800">
+          <h4 className="text-white font-semibold text-sm mb-4 flex items-center gap-2">
+            <MapPin size={14} className="text-brand-yellow" />
+            Areas We Serve
+          </h4>
+          <div className="flex flex-wrap gap-2">
+            {SERVICE_AREAS.map((city) => (
+              <span key={city}
+                className="text-xs text-brand-gray-600 bg-brand-gray-800 px-2.5 py-1 rounded-full hover:text-brand-yellow transition-colors cursor-default">
+                {city}
+              </span>
+            ))}
+          </div>
+          <p className="text-brand-gray-600 text-xs mt-3">
+            Serving Calgary and surrounding communities within 200 km — including all of Southern Alberta.
+          </p>
+        </div>
+
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Brand */}
           <div>
