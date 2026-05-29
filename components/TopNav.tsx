@@ -47,7 +47,7 @@ export default function TopNav({ userName }: { userName?: string }) {
               <Hammer size={14} className="text-brand-black" strokeWidth={2.5} />
             </div>
             <span className="text-white font-bold text-base tracking-tight">
-              Handyman<span className="text-brand-yellow">Pro</span>
+              Nova<span className="text-brand-yellow">reno</span>
             </span>
           </Link>
 

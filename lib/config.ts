@@ -1,7 +1,7 @@
 export const BUSINESS = {
-  name: "HandymanPro",          // ← change this when you pick a name
-  tagline: "Calgary's trusted handyman & renovation service",
-  phone: "905-781-9320",      // ← update
-  email: "info@handymanpro.ca", // ← update
+  name: "Novareno",
+  tagline: "Calgary's trusted renovation & handyman service",
+  phone: "905-781-9320",
+  email: "info@novareno.ca",
   area: "Calgary, AB",
 };

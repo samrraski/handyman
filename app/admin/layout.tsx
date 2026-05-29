@@ -19,7 +19,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
               <div className="w-6 h-6 bg-brand-yellow rounded-md flex items-center justify-center">
                 <Hammer size={12} className="text-brand-black" strokeWidth={2.5} />
               </div>
-              <span className="text-white font-bold text-sm">{BUSINESS.name}</span>
+              <span className="text-white font-bold text-sm">Nova<span className="text-brand-yellow">reno</span></span>
               <span className="text-brand-gray-600 text-xs ml-1">Admin</span>
             </Link>
             <nav className="flex items-center gap-1">
