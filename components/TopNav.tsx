@@ -13,15 +13,17 @@ import {
   Settings,
   LogOut,
   Hammer,
+  Inbox,
 } from "lucide-react";
 
 const navLinks = [
-  { href: "/dashboard",  label: "Dashboard", icon: LayoutDashboard },
-  { href: "/jobs",       label: "Jobs",       icon: ClipboardList   },
-  { href: "/estimates",  label: "Estimates",  icon: FileText        },
-  { href: "/clients",    label: "Clients",    icon: Users           },
-  { href: "/schedule",   label: "Schedule",   icon: Calendar        },
-  { href: "/services",   label: "Services",   icon: Wrench          },
+  { href: "/dashboard",  label: "Dashboard",  icon: LayoutDashboard },
+  { href: "/jobs",       label: "Jobs",        icon: ClipboardList   },
+  { href: "/estimates",  label: "Estimates",   icon: FileText        },
+  { href: "/clients",    label: "Clients",     icon: Users           },
+  { href: "/inquiries",  label: "Inquiries",   icon: Inbox           },
+  { href: "/schedule",   label: "Schedule",    icon: Calendar        },
+  { href: "/services",   label: "Services",    icon: Wrench          },
 ];
 
 export default function TopNav({ userName }: { userName?: string }) {

@@ -1,6 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import Link from "next/link";
-import { Users, ClipboardList, FileText, DollarSign, Plus, ArrowRight } from "lucide-react";
+import { Users, ClipboardList, FileText, DollarSign, Plus, ArrowRight, Inbox } from "lucide-react";
 
 const STATUS_COLORS: Record<string, string> = {
   lead:        "bg-blue-100 text-blue-700",
@@ -34,7 +34,7 @@ export default async function DashboardPage() {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return null;
 
-  const [clientsRes, jobsRes, estimatesRes, recentJobsRes] = await Promise.all([
+  const [clientsRes, jobsRes, estimatesRes, recentJobsRes, inquiriesRes] = await Promise.all([
     supabase.from("clients").select("id", { count: "exact", head: true }).eq("contractor_id", user.id),
     supabase.from("jobs").select("status, total_amount").eq("contractor_id", user.id),
     supabase.from("estimates").select("id, status").eq("contractor_id", user.id),
@@ -44,6 +44,7 @@ export default async function DashboardPage() {
       .eq("contractor_id", user.id)
       .order("created_at", { ascending: false })
       .limit(6),
+    supabase.from("inquiries").select("id", { count: "exact", head: true }).eq("status", "new"),
   ]);
 
   const clientCount = clientsRes.count ?? 0;
@@ -56,11 +57,13 @@ export default async function DashboardPage() {
     ["draft", "sent"].includes(e.status)
   ).length;
   const recentJobs = (recentJobsRes.data ?? []) as unknown as RecentJob[];
+  const newInquiries = inquiriesRes.count ?? 0;
 
   const stats = [
     { label: "Clients", value: clientCount, icon: Users, href: "/clients", color: "text-blue-500" },
     { label: "Active Jobs", value: activeJobs, icon: ClipboardList, href: "/jobs", color: "text-brand-yellow" },
     { label: "Open Estimates", value: openEstimates, icon: FileText, href: "/estimates", color: "text-purple-500" },
+    { label: "New Inquiries", value: newInquiries, icon: Inbox, href: "/inquiries", color: "text-orange-500" },
     { label: "Revenue (completed)", value: fmt(revenue), icon: DollarSign, href: "/jobs", color: "text-green-500" },
   ];
 
@@ -80,7 +83,7 @@ export default async function DashboardPage() {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
         {stats.map(({ label, value, icon: Icon, href, color }) => (
           <Link
             key={label}
