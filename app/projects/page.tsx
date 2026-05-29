@@ -94,8 +94,6 @@ const PROJECTS = [
   },
 ];
 
-const TYPES = ["All", "Kitchen", "Basement", "Full Renovation", "Flooring", "Painting", "Drywall", "Bathroom"];
-
 export default async function ProjectsPage() {
   const c = await getContent(["projects_headline", "projects_subtext"]);
 

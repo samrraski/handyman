@@ -68,7 +68,7 @@ export default async function ProcessPage() {
       {/* Steps */}
       <section className="py-16 px-4 sm:px-6">
         <div className="max-w-3xl mx-auto space-y-6">
-          {STEPS.map((step, i) => (
+          {STEPS.map((step) => (
             <div key={step.num} className="flex gap-5 p-6 bg-white border border-brand-gray-200 rounded-2xl hover:border-brand-yellow transition-colors">
               <div className="shrink-0">
                 <div className="w-12 h-12 rounded-xl bg-brand-yellow/15 flex items-center justify-center">

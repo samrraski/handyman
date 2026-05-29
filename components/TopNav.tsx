@@ -9,7 +9,6 @@ import {
   FileText,
   Users,
   Calendar,
-  Wrench,
   Settings,
   LogOut,
   Hammer,
