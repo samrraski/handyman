@@ -3,11 +3,18 @@ import { Hammer, Phone, Mail, MapPin } from "lucide-react";
 import { BUSINESS } from "@/lib/config";
 
 const SERVICE_AREAS = [
-  "Calgary", "Airdrie", "Cochrane", "Chestermere", "Okotoks",
-  "High River", "Strathmore", "Canmore", "Banff", "Crossfield",
-  "Carstairs", "Didsbury", "Olds", "Red Deer", "Black Diamond",
-  "Turner Valley", "Bragg Creek", "Langdon", "Nanton", "Claresholm",
-  "Fort Macleod", "Vulcan", "Drumheller", "Beiseker", "Irricana",
+  // Calgary metro & immediate surroundings
+  "Calgary", "Airdrie", "Chestermere", "Cochrane", "Okotoks",
+  "Bragg Creek", "Langdon", "Balzac", "Rocky View County",
+  // 50–100 km
+  "Strathmore", "High River", "Crossfield", "Carstairs",
+  "Black Diamond", "Turner Valley", "Irricana", "Beiseker",
+  "Didsbury", "Olds", "Nanton", "Vulcan", "Sundre",
+  "Canmore", "Banff",
+  // 100–200 km
+  "Innisfail", "Claresholm", "Drumheller", "Red Deer",
+  "Lacombe", "Ponoka", "Rimbey", "Rocky Mountain House",
+  "Fort Macleod", "Pincher Creek", "Stettler",
 ];
 
 export default function PublicFooter() {

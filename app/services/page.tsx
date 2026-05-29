@@ -1,7 +1,20 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import PublicNav from "@/components/PublicNav";
 import { SERVICES_CONFIG } from "@/lib/services-config";
 import { BUSINESS } from "@/lib/config";
+
+export const metadata: Metadata = {
+  title: "Renovation Services in Calgary | Novareno",
+  description:
+    "Browse all renovation services by Novareno in Calgary, AB — kitchen renovations, basement finishing, drywall, painting, flooring, framing, doors & windows, and handyman repairs. Free estimates.",
+  alternates: { canonical: "/services" },
+  openGraph: {
+    title: "Renovation Services in Calgary | Novareno",
+    description: "Kitchen renovations, basement finishing, drywall, painting, flooring, and more in Calgary, AB. Get a free estimate from Novareno.",
+    url: "/services",
+  },
+};
 import {
   Layers, Paintbrush, LayoutGrid, HardHat, DoorOpen, Wrench,
   ArrowRight, CheckCircle2, Hammer,

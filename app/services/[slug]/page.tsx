@@ -17,6 +17,37 @@ const SERVICE_ICONS: Record<string, React.ElementType> = {
   kitchen: ChefHat, "basement-finishing": Drill,
 };
 
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<import("next").Metadata> {
+  const { slug } = await params;
+  const service = SERVICES_CONFIG.find((s) => s.slug === slug);
+  if (!service) return { title: "Service Not Found" };
+
+  const title = `${service.name} in Calgary | Novareno`;
+  const description = `Professional ${service.name.toLowerCase()} services in Calgary, AB. ${service.tagline}. Free estimates — serving Calgary, Airdrie, Cochrane, Okotoks, and all of Southern Alberta.`;
+
+  return {
+    title,
+    description,
+    keywords: [
+      `${service.name.toLowerCase()} Calgary`,
+      `Calgary ${service.name.toLowerCase()} contractor`,
+      `${service.name.toLowerCase()} contractor Calgary AB`,
+      `${service.name.toLowerCase()} company Calgary`,
+    ],
+    alternates: { canonical: `/services/${slug}` },
+    openGraph: {
+      title,
+      description,
+      url: `/services/${slug}`,
+      images: service.image ? [{ url: service.image, width: 1200, height: 630, alt: `${service.name} by Novareno Calgary` }] : [],
+    },
+  };
+}
+
 export function generateStaticParams() {
   return SERVICES_CONFIG.map((s) => ({ slug: s.slug }));
 }
