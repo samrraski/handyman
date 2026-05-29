@@ -11,6 +11,8 @@ interface Job {
   title: string;
   description: string | null;
   status: JobStatus;
+  work_type: string | null;
+  assigned_to: string | null;
   client_id: string | null;
   location: string | null;
   start_date: string | null;
@@ -44,6 +46,20 @@ const STATUS_LABELS: Record<JobStatus, string> = {
 
 const STATUSES: JobStatus[] = ["lead", "scheduled", "in_progress", "completed", "cancelled"];
 
+const WORK_TYPES = [
+  { value: "drywall",       label: "Drywall" },
+  { value: "painting",      label: "Painting" },
+  { value: "flooring",      label: "Flooring" },
+  { value: "framing",       label: "Framing" },
+  { value: "doors_windows", label: "Doors & Windows" },
+  { value: "handyman",      label: "Handyman" },
+  { value: "electrical",    label: "Electrical" },
+  { value: "plumbing",      label: "Plumbing" },
+  { value: "roofing",       label: "Roofing" },
+  { value: "landscaping",   label: "Landscaping" },
+  { value: "other",         label: "Other" },
+];
+
 const fmt = (n: number) =>
   new Intl.NumberFormat("en-CA", { style: "currency", currency: "CAD" }).format(n);
 
@@ -51,6 +67,8 @@ const EMPTY_FORM = {
   title: "",
   description: "",
   status: "lead" as JobStatus,
+  work_type: "",
+  assigned_to: "",
   client_id: "",
   location: "",
   start_date: "",
@@ -74,12 +92,14 @@ export default function JobsView({
   const [form, setForm] = useState(EMPTY_FORM);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
+  const [changingStatus, setChangingStatus] = useState<string | null>(null);
 
   const filtered = jobs.filter((j) => {
     const matchStatus = filter === "all" || j.status === filter;
     const matchSearch =
       j.title.toLowerCase().includes(search.toLowerCase()) ||
-      (j.clients?.full_name ?? "").toLowerCase().includes(search.toLowerCase());
+      (j.clients?.full_name ?? "").toLowerCase().includes(search.toLowerCase()) ||
+      (j.assigned_to ?? "").toLowerCase().includes(search.toLowerCase());
     return matchStatus && matchSearch;
   });
 
@@ -95,6 +115,8 @@ export default function JobsView({
       title: job.title,
       description: job.description ?? "",
       status: job.status,
+      work_type: job.work_type ?? "",
+      assigned_to: job.assigned_to ?? "",
       client_id: job.client_id ?? "",
       location: job.location ?? "",
       start_date: job.start_date ?? "",
@@ -112,6 +134,21 @@ export default function JobsView({
     setEditing(null);
   }
 
+  async function handleStatusChange(jobId: string, newStatus: JobStatus) {
+    setChangingStatus(jobId);
+    const supabase = createSupabaseClient();
+    const { error: err } = await supabase
+      .from("jobs")
+      .update({ status: newStatus })
+      .eq("id", jobId);
+    if (!err) {
+      setJobs((prev) =>
+        prev.map((j) => (j.id === jobId ? { ...j, status: newStatus } : j))
+      );
+    }
+    setChangingStatus(null);
+  }
+
   async function handleSave(e: React.FormEvent) {
     e.preventDefault();
     setSaving(true);
@@ -122,6 +159,8 @@ export default function JobsView({
       title: form.title.trim(),
       description: form.description || null,
       status: form.status,
+      work_type: form.work_type || null,
+      assigned_to: form.assigned_to || null,
       client_id: form.client_id || null,
       location: form.location || null,
       start_date: form.start_date || null,
@@ -212,7 +251,7 @@ export default function JobsView({
         <input
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          placeholder="Search jobs or clients..."
+          placeholder="Search jobs, clients, or workers..."
           className="w-full bg-white border border-brand-gray-200 rounded-xl pl-9 pr-4 py-2.5 text-sm focus:outline-none focus:border-brand-yellow transition-colors"
         />
       </div>
@@ -235,8 +274,10 @@ export default function JobsView({
                 <tr className="text-left border-b border-brand-gray-200 bg-brand-gray-100">
                   <th className="px-5 py-3 text-xs font-semibold text-brand-gray-400 uppercase tracking-wide">Job</th>
                   <th className="px-4 py-3 text-xs font-semibold text-brand-gray-400 uppercase tracking-wide">Client</th>
+                  <th className="px-4 py-3 text-xs font-semibold text-brand-gray-400 uppercase tracking-wide hidden md:table-cell">Type</th>
+                  <th className="px-4 py-3 text-xs font-semibold text-brand-gray-400 uppercase tracking-wide hidden lg:table-cell">Assigned To</th>
                   <th className="px-4 py-3 text-xs font-semibold text-brand-gray-400 uppercase tracking-wide">Status</th>
-                  <th className="px-4 py-3 text-xs font-semibold text-brand-gray-400 uppercase tracking-wide">Start</th>
+                  <th className="px-4 py-3 text-xs font-semibold text-brand-gray-400 uppercase tracking-wide hidden sm:table-cell">Start</th>
                   <th className="px-4 py-3 text-xs font-semibold text-brand-gray-400 uppercase tracking-wide text-right">Amount</th>
                   <th className="px-4 py-3 w-16"></th>
                 </tr>
@@ -251,30 +292,42 @@ export default function JobsView({
                       )}
                     </td>
                     <td className="px-4 py-3.5 text-brand-gray-600">
-                      {job.clients?.full_name ?? (
-                        <span className="text-brand-gray-300">—</span>
-                      )}
+                      {job.clients?.full_name ?? <span className="text-brand-gray-300">—</span>}
+                    </td>
+                    <td className="px-4 py-3.5 text-brand-gray-600 capitalize hidden md:table-cell">
+                      {job.work_type
+                        ? WORK_TYPES.find((w) => w.value === job.work_type)?.label ?? job.work_type
+                        : <span className="text-brand-gray-300">—</span>}
+                    </td>
+                    <td className="px-4 py-3.5 text-brand-gray-600 hidden lg:table-cell">
+                      {job.assigned_to ?? <span className="text-brand-gray-300">—</span>}
                     </td>
                     <td className="px-4 py-3.5">
-                      <span
-                        className={`text-xs font-medium px-2.5 py-1 rounded-full ${STATUS_COLORS[job.status]}`}
-                      >
-                        {STATUS_LABELS[job.status]}
-                      </span>
+                      <div className="relative">
+                        {changingStatus === job.id ? (
+                          <Loader2 size={14} className="animate-spin text-brand-gray-400" />
+                        ) : (
+                          <select
+                            value={job.status}
+                            onChange={(e) => handleStatusChange(job.id, e.target.value as JobStatus)}
+                            className={`text-xs font-medium px-2.5 py-1 rounded-full border-0 cursor-pointer focus:outline-none focus:ring-2 focus:ring-brand-yellow ${STATUS_COLORS[job.status]}`}
+                          >
+                            {STATUSES.map((s) => (
+                              <option key={s} value={s}>{STATUS_LABELS[s]}</option>
+                            ))}
+                          </select>
+                        )}
+                      </div>
                     </td>
-                    <td className="px-4 py-3.5 text-brand-gray-600">
-                      {job.start_date ? (
-                        new Date(job.start_date + "T00:00:00").toLocaleDateString("en-CA")
-                      ) : (
-                        <span className="text-brand-gray-300">—</span>
-                      )}
+                    <td className="px-4 py-3.5 text-brand-gray-600 hidden sm:table-cell">
+                      {job.start_date
+                        ? new Date(job.start_date + "T00:00:00").toLocaleDateString("en-CA")
+                        : <span className="text-brand-gray-300">—</span>}
                     </td>
                     <td className="px-4 py-3.5 text-right font-semibold text-brand-black">
-                      {job.total_amount != null ? (
-                        fmt(job.total_amount)
-                      ) : (
-                        <span className="text-brand-gray-300">—</span>
-                      )}
+                      {job.total_amount != null
+                        ? fmt(job.total_amount)
+                        : <span className="text-brand-gray-300">—</span>}
                     </td>
                     <td className="px-4 py-3.5">
                       <div className="flex items-center gap-1 justify-end">
@@ -331,15 +384,15 @@ export default function JobsView({
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-medium text-brand-gray-600 mb-1">Client</label>
+                  <label className="block text-xs font-medium text-brand-gray-600 mb-1">Type of Work</label>
                   <select
-                    value={form.client_id}
-                    onChange={(e) => setForm((f) => ({ ...f, client_id: e.target.value }))}
+                    value={form.work_type}
+                    onChange={(e) => setForm((f) => ({ ...f, work_type: e.target.value }))}
                     className="w-full bg-brand-gray-100 border border-brand-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-brand-yellow transition-colors"
                   >
-                    <option value="">No client</option>
-                    {clients.map((c) => (
-                      <option key={c.id} value={c.id}>{c.full_name}</option>
+                    <option value="">Select type...</option>
+                    {WORK_TYPES.map((w) => (
+                      <option key={w.value} value={w.value}>{w.label}</option>
                     ))}
                   </select>
                 </div>
@@ -354,6 +407,31 @@ export default function JobsView({
                       <option key={s} value={s}>{STATUS_LABELS[s]}</option>
                     ))}
                   </select>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-medium text-brand-gray-600 mb-1">Client</label>
+                  <select
+                    value={form.client_id}
+                    onChange={(e) => setForm((f) => ({ ...f, client_id: e.target.value }))}
+                    className="w-full bg-brand-gray-100 border border-brand-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-brand-yellow transition-colors"
+                  >
+                    <option value="">No client</option>
+                    {clients.map((c) => (
+                      <option key={c.id} value={c.id}>{c.full_name}</option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-brand-gray-600 mb-1">Assigned To (Worker)</label>
+                  <input
+                    value={form.assigned_to}
+                    onChange={(e) => setForm((f) => ({ ...f, assigned_to: e.target.value }))}
+                    placeholder="Worker's name"
+                    className="w-full bg-brand-gray-100 border border-brand-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-brand-yellow transition-colors"
+                  />
                 </div>
               </div>
 
@@ -407,6 +485,17 @@ export default function JobsView({
                   onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))}
                   rows={2}
                   placeholder="What does this job involve?"
+                  className="w-full bg-brand-gray-100 border border-brand-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-brand-yellow transition-colors resize-none"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-medium text-brand-gray-600 mb-1">Notes</label>
+                <textarea
+                  value={form.notes}
+                  onChange={(e) => setForm((f) => ({ ...f, notes: e.target.value }))}
+                  rows={2}
+                  placeholder="Internal notes..."
                   className="w-full bg-brand-gray-100 border border-brand-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-brand-yellow transition-colors resize-none"
                 />
               </div>

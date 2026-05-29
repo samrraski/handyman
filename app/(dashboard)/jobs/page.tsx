@@ -8,7 +8,7 @@ export default async function JobsPage() {
   const [jobsRes, clientsRes] = await Promise.all([
     supabase
       .from("jobs")
-      .select("*, clients(id, full_name)")
+      .select("*, clients(id, full_name), work_type, assigned_to")
       .eq("contractor_id", user!.id)
       .order("created_at", { ascending: false }),
     supabase
