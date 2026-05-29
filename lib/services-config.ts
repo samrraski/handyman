@@ -4,10 +4,75 @@ export interface ServiceConfig {
   tagline: string;
   description: string;
   includes: string[];
-  calculatorId: string; // matches ServiceId in estimator
+  calculatorId?: string; // optional — not all services have a calculator
+  image?: string;        // Unsplash photo URL
 }
 
 export const SERVICES_CONFIG: ServiceConfig[] = [
+  {
+    slug: "home-design",
+    name: "Home Design",
+    tagline: "Your vision, brought to life",
+    description:
+      "Great renovations start with great design. Our in-house design team works closely with you to create floor plans, material selections, and 3D concepts that make your project a success before a single nail is driven.",
+    includes: [
+      "Free design consultation",
+      "Floor plan and layout planning",
+      "Material and finish selection",
+      "3D concept renderings",
+      "Budget planning and phasing",
+      "Permit drawings and documentation",
+    ],
+    image: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=1200&q=80",
+  },
+  {
+    slug: "complete-home-renovation",
+    name: "Complete Home Renovation",
+    tagline: "From first nail to final coat",
+    description:
+      "Thinking bigger? We manage full home renovations from design to completion. One team, one contract, zero headaches. We coordinate every trade so you don't have to.",
+    includes: [
+      "Full project design and planning",
+      "Structural framing and drywall",
+      "Kitchen and bathroom renovation",
+      "Flooring throughout",
+      "Painting — interior and trim",
+      "All finishing and cleanup",
+    ],
+    image: "https://images.unsplash.com/photo-1484154218962-a197022b5858?w=1200&q=80",
+  },
+  {
+    slug: "kitchen",
+    name: "Kitchen Renovation",
+    tagline: "The heart of your home, reinvented",
+    description:
+      "Your kitchen should work as good as it looks. We handle everything from cabinetry and countertops to tile backsplashes, flooring, and full layout changes.",
+    includes: [
+      "Cabinet installation and refacing",
+      "Countertop installation (quartz, granite, laminate)",
+      "Tile backsplash",
+      "Under-cabinet lighting",
+      "Flooring installation",
+      "Plumbing and electrical rough-in (with licensed sub-trades)",
+    ],
+    image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1200&q=80",
+  },
+  {
+    slug: "basement-finishing",
+    name: "Basement Finishing",
+    tagline: "Turn unused space into your favourite room",
+    description:
+      "An unfinished basement is untapped potential. We transform concrete shells into beautiful living spaces — home theatres, gyms, rental suites, playrooms, and more.",
+    includes: [
+      "Framing and insulation",
+      "Drywall and taping",
+      "Drop ceiling or drywall ceiling",
+      "Flooring (LVP, carpet, tile)",
+      "Painting and trim",
+      "Bathroom rough-in and finishing",
+    ],
+    image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&q=80",
+  },
   {
     slug: "drywall",
     name: "Drywall",
@@ -23,6 +88,7 @@ export const SERVICES_CONFIG: ServiceConfig[] = [
       "Patch and repair work",
     ],
     calculatorId: "drywall",
+    image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1200&q=80",
   },
   {
     slug: "painting",
@@ -39,6 +105,7 @@ export const SERVICES_CONFIG: ServiceConfig[] = [
       "Clean, tidy work — no mess left behind",
     ],
     calculatorId: "painting",
+    image: "https://images.unsplash.com/photo-1562259949-e8e7689d7828?w=1200&q=80",
   },
   {
     slug: "flooring",
@@ -55,6 +122,7 @@ export const SERVICES_CONFIG: ServiceConfig[] = [
       "Subfloor preparation and leveling",
     ],
     calculatorId: "flooring",
+    image: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=1200&q=80",
   },
   {
     slug: "framing",
@@ -71,6 +139,7 @@ export const SERVICES_CONFIG: ServiceConfig[] = [
       "Code-compliant construction",
     ],
     calculatorId: "framing",
+    image: "https://images.unsplash.com/photo-1541123437800-1bb1317badc2?w=1200&q=80",
   },
   {
     slug: "doors-windows",
@@ -87,6 +156,7 @@ export const SERVICES_CONFIG: ServiceConfig[] = [
       "Door frame repair",
     ],
     calculatorId: "doors_windows",
+    image: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=1200&q=80",
   },
   {
     slug: "handyman",
@@ -103,5 +173,6 @@ export const SERVICES_CONFIG: ServiceConfig[] = [
       "General home maintenance",
     ],
     calculatorId: "handyman",
+    image: "https://images.unsplash.com/photo-1581783898377-1c85bf937427?w=1200&q=80",
   },
 ];

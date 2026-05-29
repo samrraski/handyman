@@ -14,6 +14,7 @@ import {
   LogOut,
   Hammer,
   Inbox,
+  PenLine,
 } from "lucide-react";
 
 const navLinks = [
@@ -22,8 +23,8 @@ const navLinks = [
   { href: "/estimates",  label: "Estimates",   icon: FileText        },
   { href: "/clients",    label: "Clients",     icon: Users           },
   { href: "/inquiries",  label: "Inquiries",   icon: Inbox           },
+  { href: "/content",    label: "Content",     icon: PenLine         },
   { href: "/schedule",   label: "Schedule",    icon: Calendar        },
-  { href: "/services",   label: "Services",    icon: Wrench          },
 ];
 
 export default function TopNav({ userName }: { userName?: string }) {
