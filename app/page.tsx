@@ -1,7 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import PublicNav from "@/components/PublicNav";
+import PublicFooter from "@/components/PublicFooter";
+import { SERVICES_CONFIG } from "@/lib/services-config";
 import { BUSINESS } from "@/lib/config";
+import {
+  Layers, Paintbrush, LayoutGrid, HardHat, DoorOpen, Wrench,
+  ArrowRight, Calculator, CheckCircle2, Phone, Star,
+  ChevronRight,
+} from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Novareno | Calgary's #1 Renovation Contractor",
@@ -15,12 +22,6 @@ export const metadata: Metadata = {
     url: "/",
   },
 };
-import { SERVICES_CONFIG } from "@/lib/services-config";
-import {
-  Layers, Paintbrush, LayoutGrid, HardHat, DoorOpen, Wrench,
-  ArrowRight, Calculator, CheckCircle2, Phone, Star,
-  Hammer, ChevronRight,
-} from "lucide-react";
 
 const SERVICE_ICONS: Record<string, React.ElementType> = {
   drywall: Layers, painting: Paintbrush, flooring: LayoutGrid,
@@ -32,26 +33,6 @@ const whyUs = [
   { icon: Star,          title: "Quality Work, Every Time",    desc: "We take pride in clean, professional results — whether it's one wall or a full basement." },
   { icon: Phone,         title: "Fast Response",               desc: "Submit an inquiry and we'll get back to you within 24 hours to book your project." },
 ];
-
-function Footer() {
-  return (
-    <footer className="bg-brand-black border-t border-brand-gray-800 py-10 px-4">
-      <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-        <div className="flex items-center gap-2">
-          <div className="w-6 h-6 bg-brand-yellow rounded-md flex items-center justify-center">
-            <Hammer size={12} className="text-brand-black" strokeWidth={2.5} />
-          </div>
-          <span className="text-white font-bold text-sm">{BUSINESS.name}</span>
-        </div>
-        <p className="text-brand-gray-600 text-sm">© {new Date().getFullYear()} {BUSINESS.name} · {BUSINESS.area}</p>
-        <div className="flex items-center gap-4 text-sm text-brand-gray-600">
-          <a href={`tel:${BUSINESS.phone}`} className="hover:text-white transition-colors">{BUSINESS.phone}</a>
-          <a href={`mailto:${BUSINESS.email}`} className="hover:text-white transition-colors">{BUSINESS.email}</a>
-        </div>
-      </div>
-    </footer>
-  );
-}
 
 export default function LandingPage() {
   return (
@@ -176,7 +157,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <Footer />
+      <PublicFooter />
     </div>
   );
 }
