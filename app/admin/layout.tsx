@@ -26,9 +26,9 @@ export default async function AdminLayout({ children }: { children: React.ReactN
                 className="flex items-center gap-1.5 text-brand-gray-400 hover:text-white text-sm px-3 py-1.5 rounded-lg hover:bg-brand-gray-800 transition-colors">
                 <ClipboardList size={14} /> Inquiries
               </Link>
-              <Link href="/admin/pricing"
+              <Link href="/admin/calculator-settings"
                 className="flex items-center gap-1.5 text-brand-gray-400 hover:text-white text-sm px-3 py-1.5 rounded-lg hover:bg-brand-gray-800 transition-colors">
-                <SlidersHorizontal size={14} /> Pricing
+                <SlidersHorizontal size={14} /> Calculator Settings
               </Link>
             </nav>
           </div>

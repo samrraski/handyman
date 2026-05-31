@@ -36,7 +36,7 @@ export default async function AdminInquiriesPage() {
       </div>
 
       <Link
-        href="/admin/pricing"
+        href="/admin/calculator-settings"
         className="flex items-center justify-between gap-4 bg-white rounded-xl border border-brand-gray-200 px-5 py-4 hover:border-brand-yellow hover:shadow-sm transition-all"
       >
         <div className="flex items-center gap-3">
@@ -44,9 +44,10 @@ export default async function AdminInquiriesPage() {
             <SlidersHorizontal size={18} className="text-brand-yellow" />
           </div>
           <div>
-            <h2 className="font-bold text-brand-black">
+            <h2 className="font-bold text-brand-black">Calculator Settings</h2>
+            <p className="text-sm font-medium text-brand-gray-600">
               Adjust pricing settings (labor rate, waste %, tax)
-            </h2>
+            </p>
             <p className="text-sm text-brand-gray-400">
               Manage calculator pricing from the admin panel.
             </p>
