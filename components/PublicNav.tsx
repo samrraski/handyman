@@ -20,7 +20,6 @@ const SERVICE_LINKS = [
   { href: "/services/drywall",                label: "Drywall" },
   { href: "/services/painting",               label: "Painting" },
   { href: "/services/flooring",               label: "Flooring" },
-  { href: "/services/framing",                label: "Framing" },
 ];
 
 export default function PublicNav() {

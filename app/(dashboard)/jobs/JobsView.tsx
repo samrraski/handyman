@@ -50,7 +50,6 @@ const WORK_TYPES = [
   { value: "drywall",       label: "Drywall" },
   { value: "painting",      label: "Painting" },
   { value: "flooring",      label: "Flooring" },
-  { value: "framing",       label: "Framing" },
   { value: "doors_windows", label: "Doors & Windows" },
   { value: "handyman",      label: "Handyman" },
   { value: "electrical",    label: "Electrical" },

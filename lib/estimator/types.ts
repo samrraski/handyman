@@ -2,7 +2,6 @@ export type ServiceId =
   | "drywall"
   | "painting"
   | "flooring"
-  | "framing"
   | "doors_windows"
   | "handyman";
 

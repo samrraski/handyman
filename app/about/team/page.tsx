@@ -15,7 +15,7 @@ const TEAM = [
     role: "Founder & Lead Contractor",
     bio: "Over 15 years of experience in residential renovation. Marcus built Novareno from the ground up on a foundation of quality and client trust.",
     photo: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80",
-    specialties: ["Framing", "Project Management", "Basements"],
+    specialties: ["Project Management", "Basements", "Renovations"],
   },
   {
     name: "Jordan Steele",

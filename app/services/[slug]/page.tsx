@@ -6,13 +6,13 @@ import { BUSINESS } from "@/lib/config";
 import Image from "next/image";
 import PublicFooter from "@/components/PublicFooter";
 import {
-  Layers, Paintbrush, LayoutGrid, HardHat, DoorOpen, Wrench,
+  Layers, Paintbrush, LayoutGrid, DoorOpen, Wrench,
   CheckCircle2, Calculator, Hammer, Home, ChefHat, Drill,
 } from "lucide-react";
 
 const SERVICE_ICONS: Record<string, React.ElementType> = {
   drywall: Layers, painting: Paintbrush, flooring: LayoutGrid,
-  framing: HardHat, "doors-windows": DoorOpen, handyman: Wrench,
+  "doors-windows": DoorOpen, handyman: Wrench,
   "home-design": Home, "complete-home-renovation": Hammer,
   kitchen: ChefHat, "basement-finishing": Drill,
 };

@@ -7,17 +7,17 @@ import { BUSINESS } from "@/lib/config";
 import { createClient } from "@/lib/supabase/client";
 import {
   calculateDrywall, calculatePainting, calculateFlooring,
-  calculateFraming, calculateDoorsWindows, calculateHandyman,
+  calculateDoorsWindows, calculateHandyman,
 } from "@/lib/estimator/formulas";
 import { DEFAULT_PRICES } from "@/lib/estimator/prices";
 import type {
   ServiceId, Settings, EstimateResult,
   DrywallInputs, PaintingInputs, FlooringInputs,
-  FramingInputs, DoorsWindowsInputs, HandymanInputs,
+  DoorsWindowsInputs, HandymanInputs,
 } from "@/lib/estimator/types";
 import {
-  Layers, Paintbrush, LayoutGrid, HardHat, DoorOpen, Wrench,
-  Calculator, ChevronDown, ChevronUp, Loader2, Hammer,
+  Layers, Paintbrush, LayoutGrid, DoorOpen, Wrench,
+  Calculator, Loader2, Hammer,
 } from "lucide-react";
 
 // ── Constants ─────────────────────────────────────────────────────────────────
@@ -31,7 +31,6 @@ const SERVICES = [
   { id: "drywall" as ServiceId,       label: "Drywall",         icon: Layers    },
   { id: "painting" as ServiceId,      label: "Painting",        icon: Paintbrush },
   { id: "flooring" as ServiceId,      label: "Flooring",        icon: LayoutGrid },
-  { id: "framing" as ServiceId,       label: "Framing",         icon: HardHat   },
   { id: "doors_windows" as ServiceId, label: "Doors & Windows", icon: DoorOpen  },
   { id: "handyman" as ServiceId,      label: "Handyman",        icon: Wrench    },
 ];
@@ -140,18 +139,6 @@ function FlooringForm({ v, s }: { v: FlooringInputs; s: (p: Partial<FlooringInpu
   );
 }
 
-function FramingForm({ v, s }: { v: FramingInputs; s: (p: Partial<FramingInputs>) => void }) {
-  return (
-    <div className="space-y-3">
-      <div className="grid grid-cols-2 gap-3">
-        <Field label="Linear Feet of Wall"><NumInput value={v.linearFeet} onChange={(n) => s({ linearFeet: n })} unit="ft" step={1} /></Field>
-        <Field label="Wall Height"><NumInput value={v.wallHeight} onChange={(n) => s({ wallHeight: n })} unit="ft" /></Field>
-      </div>
-      <Field label="Number of Openings"><NumInput value={v.numberOfOpenings} onChange={(n) => s({ numberOfOpenings: n })} step={1} /></Field>
-    </div>
-  );
-}
-
 function DoorsForm({ v, s }: { v: DoorsWindowsInputs; s: (p: Partial<DoorsWindowsInputs>) => void }) {
   return (
     <div className="space-y-3">
@@ -176,38 +163,57 @@ function HandymanForm({ v, s }: { v: HandymanInputs; s: (p: Partial<HandymanInpu
 function CalculatorInner() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const preselect = searchParams.get("service") as ServiceId | null;
+  const preselectParam = searchParams.get("service");
+  const preselect = SERVICES.some((s) => s.id === preselectParam)
+    ? (preselectParam as ServiceId)
+    : null;
 
   const [service, setService]   = useState<ServiceId | null>(preselect);
   const [settings]              = useState<Settings>(DEFAULT_SETTINGS);
-  const [showSettings, setShowSettings] = useState(false);
+  const [includeMaterials, setIncludeMaterials] = useState(true);
 
   const [drywall,  setDrywallRaw]  = useState<DrywallInputs>({ length: 0, width: 0, height: 9, includeCeiling: false, wallCoverage: "all", materialType: "regular" });
   const [painting, setPaintingRaw] = useState<PaintingInputs>({ length: 0, width: 0, height: 9, includeCeiling: true, numCoats: 2, includesPrimer: true, materialType: "standard" });
   const [flooring, setFlooringRaw] = useState<FlooringInputs>({ length: 0, width: 0, materialType: "lvp", includeUnderlayment: true });
-  const [framing,  setFramingRaw]  = useState<FramingInputs>({ linearFeet: 0, wallHeight: 9, numberOfOpenings: 0 });
   const [doors,    setDoorsRaw]    = useState<DoorsWindowsInputs>({ interiorDoors: 0, exteriorDoors: 0, windows: 0 });
   const [handyman, setHandymanRaw] = useState<HandymanInputs>({ estimatedHours: 0, materialBudget: 0 });
 
   const sd = (p: Partial<DrywallInputs>) => setDrywallRaw((v) => ({ ...v, ...p }));
   const sp = (p: Partial<PaintingInputs>) => setPaintingRaw((v) => ({ ...v, ...p }));
   const sf = (p: Partial<FlooringInputs>) => setFlooringRaw((v) => ({ ...v, ...p }));
-  const sfr = (p: Partial<FramingInputs>) => setFramingRaw((v) => ({ ...v, ...p }));
   const sdo = (p: Partial<DoorsWindowsInputs>) => setDoorsRaw((v) => ({ ...v, ...p }));
   const sh = (p: Partial<HandymanInputs>) => setHandymanRaw((v) => ({ ...v, ...p }));
 
   const result = useMemo((): EstimateResult | null => {
     if (!service) return null;
     const p = DEFAULT_PRICES;
-    switch (service) {
+    const estimate = (() => {
+      switch (service) {
       case "drywall":       return calculateDrywall(drywall, settings, p);
       case "painting":      return calculatePainting(painting, settings, p);
       case "flooring":      return calculateFlooring(flooring, settings, p);
-      case "framing":       return calculateFraming(framing, settings, p);
       case "doors_windows": return calculateDoorsWindows(doors, settings, p);
       case "handyman":      return calculateHandyman(handyman, settings, p);
-    }
-  }, [service, drywall, painting, flooring, framing, doors, handyman, settings]);
+      }
+    })();
+
+    if (includeMaterials) return estimate;
+
+    const subtotal = estimate.laborCost;
+    const profitAmount = Math.round(subtotal * (settings.profitMargin / 100) * 100) / 100;
+    const taxableAmount = subtotal + profitAmount;
+    const taxAmount = Math.round(taxableAmount * (settings.taxRate / 100) * 100) / 100;
+
+    return {
+      ...estimate,
+      materials: [],
+      materialCost: 0,
+      subtotal,
+      profitAmount,
+      taxAmount,
+      total: Math.round((taxableAmount + taxAmount) * 100) / 100,
+    };
+  }, [service, drywall, painting, flooring, doors, handyman, settings, includeMaterials]);
 
   const hasResult = result && result.total > 0;
 
@@ -276,23 +282,40 @@ function CalculatorInner() {
               {service === "drywall"       && <DrywallForm  v={drywall}  s={sd}  />}
               {service === "painting"      && <PaintingForm v={painting} s={sp}  />}
               {service === "flooring"      && <FlooringForm v={flooring} s={sf}  />}
-              {service === "framing"       && <FramingForm  v={framing}  s={sfr} />}
               {service === "doors_windows" && <DoorsForm    v={doors}    s={sdo} />}
               {service === "handyman"      && <HandymanForm v={handyman} s={sh}  />}
             </div>
 
-            {/* Settings toggle */}
-            <div className="bg-white rounded-2xl border border-brand-gray-200 overflow-hidden">
-              <button onClick={() => setShowSettings(!showSettings)}
-                className="w-full flex items-center justify-between px-5 py-3 text-sm text-brand-gray-400 hover:text-brand-black transition-colors">
-                <span>Adjust pricing settings (labor rate, waste %, tax)</span>
-                {showSettings ? <ChevronUp size={15} /> : <ChevronDown size={15} />}
-              </button>
-              {showSettings && (
-                <div className="px-5 pb-4 pt-0 border-t border-brand-gray-200 text-sm text-brand-gray-500 italic">
-                  Pricing settings are managed by the business. The estimate shown uses standard Calgary rates.
-                </div>
-              )}
+            {/* Materials toggle */}
+            <div className="bg-white rounded-2xl border border-brand-gray-200 p-5">
+              <h2 className="text-sm font-semibold text-brand-black mb-3">3. Materials</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <button
+                  type="button"
+                  onClick={() => setIncludeMaterials(true)}
+                  className={`rounded-xl border px-4 py-3 text-sm font-semibold transition-colors ${
+                    includeMaterials
+                      ? "bg-brand-black border-brand-black text-white"
+                      : "bg-brand-gray-100 border-brand-gray-200 text-brand-gray-600 hover:border-brand-yellow"
+                  }`}
+                >
+                  Include materials
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setIncludeMaterials(false)}
+                  className={`rounded-xl border px-4 py-3 text-sm font-semibold transition-colors ${
+                    !includeMaterials
+                      ? "bg-brand-black border-brand-black text-white"
+                      : "bg-brand-gray-100 border-brand-gray-200 text-brand-gray-600 hover:border-brand-yellow"
+                  }`}
+                >
+                  Labour only
+                </button>
+              </div>
+              <p className="mt-3 text-xs text-brand-gray-400">
+                Choose whether the estimate includes supplied materials or only labour.
+              </p>
             </div>
           </div>
 
@@ -307,12 +330,16 @@ function CalculatorInner() {
                 <div className="px-4 py-3 border-b border-brand-gray-200">
                   <p className="text-xs font-semibold text-brand-gray-400 uppercase tracking-wide mb-2">Materials</p>
                   <div className="space-y-1.5">
-                    {result.materials.map((m, i) => (
-                      <div key={i} className="flex justify-between text-sm">
-                        <span className="text-brand-gray-600 flex-1 pr-2">{m.name}</span>
-                        <span className="text-brand-black font-medium shrink-0">{fmt(m.total)}</span>
-                      </div>
-                    ))}
+                    {result.materials.length > 0 ? (
+                      result.materials.map((m, i) => (
+                        <div key={i} className="flex justify-between text-sm">
+                          <span className="text-brand-gray-600 flex-1 pr-2">{m.name}</span>
+                          <span className="text-brand-black font-medium shrink-0">{fmt(m.total)}</span>
+                        </div>
+                      ))
+                    ) : (
+                      <p className="text-sm text-brand-gray-400">Not included in this estimate.</p>
+                    )}
                   </div>
                 </div>
                 <div className="px-4 py-3 border-b border-brand-gray-200">

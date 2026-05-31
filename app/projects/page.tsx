@@ -25,7 +25,7 @@ const PROJECTS = [
     title: "Basement Suite Finishing",
     location: "Cranston, Calgary",
     type: "Basement",
-    description: "Legal basement suite — framing, drywall, bathroom, kitchen rough-in, flooring, and full paint.",
+    description: "Legal basement suite — layout prep, drywall, bathroom, kitchen rough-in, flooring, and full paint.",
     photo: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80",
     duration: "5 weeks",
   },

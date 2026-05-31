@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     template: "%s | Novareno Calgary",
   },
   description:
-    "Novareno is Calgary's trusted renovation contractor. Kitchen renovations, basement finishing, drywall, painting, flooring, framing, and complete home renovations. Serving Calgary and Southern Alberta.",
+    "Novareno is Calgary's trusted renovation contractor. Kitchen renovations, basement finishing, drywall, painting, flooring, and complete home renovations. Serving Calgary and Southern Alberta.",
   keywords: [
     "Calgary renovation contractor",
     "home renovation Calgary",
@@ -64,7 +64,7 @@ const localBusinessSchema = {
   "@type": ["HomeAndConstructionBusiness", "LocalBusiness"],
   name: "Novareno",
   description:
-    "Calgary's trusted renovation contractor specializing in kitchen renovations, basement finishing, drywall, painting, flooring, framing, and complete home renovations.",
+    "Calgary's trusted renovation contractor specializing in kitchen renovations, basement finishing, drywall, painting, flooring, and complete home renovations.",
   url: BUSINESS.siteUrl,
   telephone: `+1-${BUSINESS.phone}`,
   email: BUSINESS.email,

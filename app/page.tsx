@@ -5,7 +5,7 @@ import PublicFooter from "@/components/PublicFooter";
 import { SERVICES_CONFIG } from "@/lib/services-config";
 import { BUSINESS } from "@/lib/config";
 import {
-  Layers, Paintbrush, LayoutGrid, HardHat, DoorOpen, Wrench,
+  Layers, Paintbrush, LayoutGrid, DoorOpen, Wrench,
   ArrowRight, Calculator, CheckCircle2, Phone, Star,
   ChevronRight,
 } from "lucide-react";
@@ -13,7 +13,7 @@ import {
 export const metadata: Metadata = {
   title: "Novareno | Calgary's #1 Renovation Contractor",
   description:
-    "Novareno offers professional home renovation services in Calgary, AB — kitchen renovations, basement finishing, drywall, painting, flooring, framing, and complete home renovations. Get a free estimate today.",
+    "Novareno offers professional home renovation services in Calgary, AB — kitchen renovations, basement finishing, drywall, painting, flooring, and complete home renovations. Get a free estimate today.",
   alternates: { canonical: "/" },
   openGraph: {
     title: "Novareno | Calgary's #1 Renovation Contractor",
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
 
 const SERVICE_ICONS: Record<string, React.ElementType> = {
   drywall: Layers, painting: Paintbrush, flooring: LayoutGrid,
-  framing: HardHat, "doors-windows": DoorOpen, handyman: Wrench,
+  "doors-windows": DoorOpen, handyman: Wrench,
 };
 
 const whyUs = [

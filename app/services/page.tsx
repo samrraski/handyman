@@ -7,7 +7,7 @@ import { BUSINESS } from "@/lib/config";
 export const metadata: Metadata = {
   title: "Renovation Services in Calgary | Novareno",
   description:
-    "Browse all renovation services by Novareno in Calgary, AB — kitchen renovations, basement finishing, drywall, painting, flooring, framing, doors & windows, and handyman repairs. Free estimates.",
+    "Browse all renovation services by Novareno in Calgary, AB — kitchen renovations, basement finishing, drywall, painting, flooring, doors & windows, and handyman repairs. Free estimates.",
   alternates: { canonical: "/services" },
   openGraph: {
     title: "Renovation Services in Calgary | Novareno",
@@ -16,13 +16,13 @@ export const metadata: Metadata = {
   },
 };
 import {
-  Layers, Paintbrush, LayoutGrid, HardHat, DoorOpen, Wrench,
+  Layers, Paintbrush, LayoutGrid, DoorOpen, Wrench,
   ArrowRight, CheckCircle2, Hammer,
 } from "lucide-react";
 
 const SERVICE_ICONS: Record<string, React.ElementType> = {
   drywall: Layers, painting: Paintbrush, flooring: LayoutGrid,
-  framing: HardHat, "doors-windows": DoorOpen, handyman: Wrench,
+  "doors-windows": DoorOpen, handyman: Wrench,
 };
 
 export default function ServicesPage() {

@@ -33,7 +33,7 @@ export const SERVICES_CONFIG: ServiceConfig[] = [
       "Thinking bigger? We manage full home renovations from design to completion. One team, one contract, zero headaches. We coordinate every trade so you don't have to.",
     includes: [
       "Full project design and planning",
-      "Structural framing and drywall",
+      "Structural prep and drywall",
       "Kitchen and bathroom renovation",
       "Flooring throughout",
       "Painting — interior and trim",
@@ -64,7 +64,7 @@ export const SERVICES_CONFIG: ServiceConfig[] = [
     description:
       "An unfinished basement is untapped potential. We transform concrete shells into beautiful living spaces — home theatres, gyms, rental suites, playrooms, and more.",
     includes: [
-      "Framing and insulation",
+      "Layout prep and insulation",
       "Drywall and taping",
       "Drop ceiling or drywall ceiling",
       "Flooring (LVP, carpet, tile)",
@@ -123,23 +123,6 @@ export const SERVICES_CONFIG: ServiceConfig[] = [
     ],
     calculatorId: "flooring",
     image: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=1200&q=80",
-  },
-  {
-    slug: "framing",
-    name: "Framing",
-    tagline: "Solid structure, built right",
-    description:
-      "New walls, basement development, room additions — we build framing that everything else depends on, straight and to code.",
-    includes: [
-      "Interior wall framing",
-      "Basement development framing",
-      "Partition walls",
-      "Door and window rough openings",
-      "Structural framing",
-      "Code-compliant construction",
-    ],
-    calculatorId: "framing",
-    image: "https://images.unsplash.com/photo-1541123437800-1bb1317badc2?w=1200&q=80",
   },
   {
     slug: "doors-windows",

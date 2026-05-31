@@ -24,11 +24,6 @@ export const DEFAULT_PRICES: PriceMap = {
   flooring_tile:         5.0,
   flooring_carpet:       3.5,
   flooring_underlayment: 0.5,
-  // Framing
-  framing_stud:   8,
-  framing_plate:  7,
-  framing_nails: 18,
-  framing_header: 22,
   // Doors & Windows
   door_interior:   280,
   door_exterior:   650,
@@ -85,16 +80,6 @@ export const SERVICE_DEFS: ServiceDef[] = [
       { key: "flooring_tile",         name: "Ceramic Tile",               unit: "sq ft", defaultPrice: 5.0 },
       { key: "flooring_carpet",       name: "Carpet",                     unit: "sq ft", defaultPrice: 3.5 },
       { key: "flooring_underlayment", name: "Underlayment",               unit: "sq ft", defaultPrice: 0.5 },
-    ],
-  },
-  {
-    id: "framing",
-    label: "Framing",
-    materials: [
-      { key: "framing_stud",   name: "2×4 Stud",          unit: "piece", defaultPrice: 8  },
-      { key: "framing_plate",  name: "2×4×8 Plate Board", unit: "board", defaultPrice: 7  },
-      { key: "framing_nails",  name: "Framing Nails",     unit: "box",   defaultPrice: 18 },
-      { key: "framing_header", name: "2×8 Header Board",  unit: "board", defaultPrice: 22 },
     ],
   },
   {

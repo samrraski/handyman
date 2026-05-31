@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import Link from "next/link";
-import { Hammer, ClipboardList, LogOut } from "lucide-react";
+import { Hammer, ClipboardList, LogOut, SlidersHorizontal } from "lucide-react";
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient();
@@ -25,6 +25,10 @@ export default async function AdminLayout({ children }: { children: React.ReactN
               <Link href="/admin/inquiries"
                 className="flex items-center gap-1.5 text-brand-gray-400 hover:text-white text-sm px-3 py-1.5 rounded-lg hover:bg-brand-gray-800 transition-colors">
                 <ClipboardList size={14} /> Inquiries
+              </Link>
+              <Link href="/admin/pricing"
+                className="flex items-center gap-1.5 text-brand-gray-400 hover:text-white text-sm px-3 py-1.5 rounded-lg hover:bg-brand-gray-800 transition-colors">
+                <SlidersHorizontal size={14} /> Pricing
               </Link>
             </nav>
           </div>
