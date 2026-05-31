@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, Suspense } from "react";
+import { useEffect, useState, useMemo, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import PublicNav from "@/components/PublicNav";
 import { BUSINESS } from "@/lib/config";
@@ -10,6 +10,7 @@ import {
   calculateDoorsWindows, calculateHandyman,
 } from "@/lib/estimator/formulas";
 import { DEFAULT_PRICES } from "@/lib/estimator/prices";
+import { DEFAULT_CALCULATOR_SETTINGS, rowToCalculatorSettings } from "@/lib/calculator-settings";
 import type {
   ServiceId, Settings, EstimateResult,
   DrywallInputs, PaintingInputs, FlooringInputs,
@@ -24,8 +25,6 @@ import {
 
 const fmt = (n: number) =>
   new Intl.NumberFormat("en-CA", { style: "currency", currency: "CAD" }).format(n);
-
-const DEFAULT_SETTINGS: Settings = { laborRate: 65, wastePercent: 10, profitMargin: 20, taxRate: 5 };
 
 const SERVICES = [
   { id: "drywall" as ServiceId,       label: "Drywall",         icon: Layers    },
@@ -169,8 +168,30 @@ function CalculatorInner() {
     : null;
 
   const [service, setService]   = useState<ServiceId | null>(preselect);
-  const [settings]              = useState<Settings>(DEFAULT_SETTINGS);
+  const [settings, setSettings] = useState<Settings>(DEFAULT_CALCULATOR_SETTINGS);
   const [includeMaterials, setIncludeMaterials] = useState(true);
+
+  useEffect(() => {
+    let mounted = true;
+
+    async function loadSettings() {
+      const supabase = createClient();
+      const { data } = await supabase
+        .from("calculator_settings")
+        .select("labor_rate, waste_percent, tax_rate")
+        .eq("id", "default")
+        .maybeSingle();
+
+      if (mounted) {
+        setSettings(rowToCalculatorSettings(data));
+      }
+    }
+
+    loadSettings();
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
   const [drywall,  setDrywallRaw]  = useState<DrywallInputs>({ length: 0, width: 0, height: 9, includeCeiling: false, wallCoverage: "all", materialType: "regular" });
   const [painting, setPaintingRaw] = useState<PaintingInputs>({ length: 0, width: 0, height: 9, includeCeiling: true, numCoats: 2, includesPrimer: true, materialType: "standard" });
