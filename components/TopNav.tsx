@@ -14,6 +14,7 @@ import {
   Hammer,
   Inbox,
   PenLine,
+  SlidersHorizontal,
 } from "lucide-react";
 
 const navLinks = [
@@ -23,6 +24,7 @@ const navLinks = [
   { href: "/clients",    label: "Clients",     icon: Users           },
   { href: "/inquiries",  label: "Inquiries",   icon: Inbox           },
   { href: "/content",    label: "Content",     icon: PenLine         },
+  { href: "/calculator-settings", label: "Calculator Settings", icon: SlidersHorizontal },
   { href: "/schedule",   label: "Schedule",    icon: Calendar        },
 ];
 

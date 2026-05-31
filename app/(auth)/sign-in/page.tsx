@@ -34,8 +34,8 @@ export default function SignInPage() {
 
   return (
     <div className="bg-brand-gray-900 rounded-2xl p-8 shadow-2xl">
-      <h1 className="text-white text-2xl font-bold mb-1">Welcome back</h1>
-      <p className="text-brand-gray-400 text-sm mb-6">Sign in to your Novareno account</p>
+      <h1 className="text-white text-2xl font-bold mb-1">Admin & Worker Sign In</h1>
+      <p className="text-brand-gray-400 text-sm mb-6">Access the Novareno back office</p>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
@@ -97,10 +97,7 @@ export default function SignInPage() {
       </form>
 
       <p className="mt-6 text-center text-sm text-brand-gray-400">
-        Don&apos;t have an account?{" "}
-        <Link href="/sign-up" className="text-brand-yellow hover:text-brand-yellow-hover font-medium transition-colors">
-          Sign up free
-        </Link>
+        Accounts are created by the admin team.
       </p>
     </div>
   );

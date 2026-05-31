@@ -1,6 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import Link from "next/link";
-import { Users, ClipboardList, FileText, DollarSign, Plus, ArrowRight, Inbox } from "lucide-react";
+import { Users, ClipboardList, FileText, DollarSign, Plus, ArrowRight, Inbox, SlidersHorizontal } from "lucide-react";
 
 const STATUS_COLORS: Record<string, string> = {
   lead:        "bg-blue-100 text-blue-700",
@@ -147,11 +147,12 @@ export default async function DashboardPage() {
       </div>
 
       {/* Quick actions */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {[
           { href: "/clients", label: "Add a Client", desc: "Store contact info for clients", icon: Users },
           { href: "/estimates/new", label: "New Estimate", desc: "Build and send a quote", icon: FileText },
           { href: "/jobs", label: "Manage Jobs", desc: "Track progress and status", icon: ClipboardList },
+          { href: "/calculator-settings", label: "Calculator Settings", desc: "Adjust labor, waste, and tax", icon: SlidersHorizontal },
         ].map(({ href, label, desc, icon: Icon }) => (
           <Link
             key={href}

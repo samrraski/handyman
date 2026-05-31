@@ -1,5 +1,5 @@
-import CalculatorSettingsForm from "../CalculatorSettingsForm";
+import { redirect } from "next/navigation";
 
 export default function AdminCalculatorSettingsPage() {
-  return <CalculatorSettingsForm />;
+  redirect("/calculator-settings");
 }
