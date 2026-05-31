@@ -46,12 +46,13 @@ export default function LandingPage() {
             <span className="text-brand-yellow text-xs font-semibold">{BUSINESS.area}</span>
           </div>
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-5">
-            Expert handyman &amp;<br />
-            <span className="text-brand-yellow">renovation services</span>
+            Transforming Calgary Homes
+            <br />
+            <span className="text-brand-yellow">with Excellence</span>
           </h1>
           <p className="text-brand-gray-400 text-lg max-w-xl mx-auto mb-8">
-            Drywall, painting, flooring, framing, and more.
-            Get an accurate estimate instantly — no calls, no waiting.
+            We design and build beautiful living spaces through expert renovations,
+            premium finishes, and meticulous attention to detail. Your dream home starts here.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link href="/calculator"
