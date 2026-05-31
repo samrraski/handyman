@@ -59,9 +59,11 @@ export default function AdminPricingPage() {
   return (
     <div className="space-y-5">
       <div>
-        <h1 className="text-xl font-bold text-brand-black">Pricing Settings</h1>
+        <h1 className="text-xl font-bold text-brand-black">
+          Adjust pricing settings (labor rate, waste %, tax)
+        </h1>
         <p className="text-sm text-brand-gray-400 mt-0.5">
-          Adjust pricing settings for labour rate, waste percentage, and tax.
+          Manage calculator defaults from the admin panel.
         </p>
       </div>
 

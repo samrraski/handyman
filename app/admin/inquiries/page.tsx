@@ -1,6 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import Link from "next/link";
-import { ClipboardList, ArrowRight } from "lucide-react";
+import { ClipboardList, ArrowRight, SlidersHorizontal } from "lucide-react";
 
 const STATUS_STYLES: Record<string, string> = {
   new:       "bg-brand-yellow/15 text-yellow-700",
@@ -34,6 +34,26 @@ export default async function AdminInquiriesPage() {
           </p>
         </div>
       </div>
+
+      <Link
+        href="/admin/pricing"
+        className="flex items-center justify-between gap-4 bg-white rounded-xl border border-brand-gray-200 px-5 py-4 hover:border-brand-yellow hover:shadow-sm transition-all"
+      >
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-xl bg-brand-yellow/15 flex items-center justify-center">
+            <SlidersHorizontal size={18} className="text-brand-yellow" />
+          </div>
+          <div>
+            <h2 className="font-bold text-brand-black">
+              Adjust pricing settings (labor rate, waste %, tax)
+            </h2>
+            <p className="text-sm text-brand-gray-400">
+              Manage calculator pricing from the admin panel.
+            </p>
+          </div>
+        </div>
+        <ArrowRight size={17} className="text-brand-gray-400 shrink-0" />
+      </Link>
 
       {inquiries && inquiries.length > 0 ? (
         <div className="bg-white rounded-xl border border-brand-gray-200 overflow-hidden">
